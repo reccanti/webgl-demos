@@ -1,6 +1,7 @@
 {
     "name": "webgl-demos",
     "version": 2,
+    "alias": "webgl-demos",
     "builds": [
         {
             "src": "next.config.js",
