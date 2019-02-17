@@ -1,7 +1,8 @@
 import React from 'react';
+import Highlight from 'react-highlight.js';
 import ResponsiveCanvas from '../common/responsive-canvas';
 import makeDemo from './makeDemo';
-const makeDemoText = require('!!raw-loader!./makeDemo.js');
+import makeDemoText from '!!raw-loader!./makeDemo.js'
 
 class BasicTriangle extends React.Component {
     canvas
@@ -29,7 +30,9 @@ class BasicTriangle extends React.Component {
                         </p>
                         <p>
                             <h2>Source</h2>
-                            <pre>{makeDemoText}</pre>
+                            <Highlight language="javascript">
+                                {makeDemoText}
+                            </Highlight>
                         </p>
                     </div>
                 </div>

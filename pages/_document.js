@@ -7,6 +7,7 @@ export default class MyDocument extends Document {
             <html>
                 <Head>
                     <link href="/static/styles.css" rel="stylesheet" type="text/css" />
+                    <link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/a11y-dark.css" />
                     <style>
                         {`
                             html, body, #__next {
