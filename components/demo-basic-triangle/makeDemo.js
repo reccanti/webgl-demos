@@ -43,6 +43,8 @@ function createProgram(gl, vertShader, fragShader) {
 
 export default function makeDemo(canvas, gl) {
 
+    console.log(gl);
+    console.log(canvas);
     // INITIALIZATION CODE 
 
     // create the program 
