@@ -6,6 +6,7 @@ export default class MyDocument extends Document {
         return (
             <html>
                 <Head>
+                    <link href="/static/styles.css" rel="stylesheet" type="text/css" />
                     <style>
                         {`
                             html, body, #__next {

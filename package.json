@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "next": "8.0.1",
+    "raw-loader": "^1.0.0",
     "react": "16.8.2",
     "react-dom": "16.8.2"
   }
