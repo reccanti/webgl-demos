@@ -38,6 +38,10 @@
     grid-column: span 5;
 }
 
+.grid-col-span-8 {
+    grid-column: span 8;
+}
+
 .grid-col-1-9 {
     grid-column: 1 / 9;
 }

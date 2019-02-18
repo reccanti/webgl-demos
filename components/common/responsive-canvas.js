@@ -27,8 +27,7 @@ export default class ResponsiveCanvas extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log("updating");
-        // this.updateCanvasDimensions();
+        this.updateCanvasDimensions();
     }
 
     /**
