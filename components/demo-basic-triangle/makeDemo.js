@@ -1,20 +1,5 @@
-const glsl = x => x;
-
-const vertShaderSource = glsl`
-    attribute vec4 a_position;
-
-    void main() {
-        gl_Position = a_position;
-    }
-`;
-
-const fragShaderSource = glsl`
-    precision mediump float;
-
-    void main() {
-        gl_FragColor = vec4(1, 0, 0.5, 1);
-    }
-`;
+import vertShaderSource from 'raw-loader!./vertexShader.glsl';
+import fragShaderSource from 'raw-loader!./fragmentShader.glsl';
 
 function createShader(gl, type, source) {
     const shader = gl.createShader(type);
