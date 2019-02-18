@@ -8,6 +8,7 @@ export default class MyDocument extends Document {
                 <Head>
                     <link href="/static/styles.css" rel="stylesheet" type="text/css" />
                     <link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/a11y-dark.css" />
+                    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Lato" rel="stylesheet"></link>
                     <style>
                         {`
                             html, body, #__next {
