@@ -1,30 +1,34 @@
 import React from 'react';
-import Highlight from 'react-highlight.js';
 import Title from "../common/title";
 import { DemoGrid, DemoArea, ControlsArea, TitleArea } from "../common/demo-grid";
 import ResponsiveCanvas from '../common/responsive-canvas';
-import makeDemo from './makeDemo';
+// import makeDemo from './makeDemo';
 
-class BasicTriangle extends React.Component {
-    canvas
+type Props = {}
 
-    constructor(props) {
+class BasicTriangle extends React.Component<Props> {
+    canvas: HTMLCanvasElement | null
+
+    constructor(props: Props) {
         super(props);
-        this.canvasRef = React.createRef();
+        this.canvas = null;
     }
 
     componentDidMount() {
+        if (!this.canvas) {
+            return;
+        }
         const context = this.canvas.getContext("webgl");
-        makeDemo(this.canvas, context);
+        // makeDemo(this.canvas, context);
     }
 
     render() {
         return (
             <DemoGrid>
                 <DemoArea>
-                    <ResponsiveCanvas getCanvas={canvas => this.canvas = canvas} />
+                    <ResponsiveCanvas getCanvas={(canvas: HTMLCanvasElement) => this.canvas = canvas} />
                 </DemoArea>
-                <TitleArea><Title>Basic Triangle</Title></TitleArea>
+                <TitleArea><Title>Matrix Transforms</Title></TitleArea>
             </DemoGrid>
         )
     }
