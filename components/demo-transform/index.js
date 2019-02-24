@@ -3,10 +3,6 @@ import Highlight from 'react-highlight.js';
 import Grid, { Column } from '../common/grid';
 import ResponsiveCanvas from '../common/responsive-canvas';
 import Matrix2 from '../common/matrix2';
-// import makeDemo from './makeDemo';
-// import vertexShaderSource from 'raw-loader!./vertexShader.glsl'
-// import fragmentShaderSource from 'raw-loader!./fragmentShader.glsl'
-// import makeDemoText from '!!raw-loader!./makeDemo.js'
 
 class MatrixTransforms extends React.Component {
     canvas
