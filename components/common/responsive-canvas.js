@@ -44,7 +44,7 @@ export default class ResponsiveCanvas extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <canvas className="width-100 height-100" width={this.state.width} height={this.state.height} ref={this.canvasRef}>
+                <canvas className="width-100vw height-100vh display-block" width={this.state.width} height={this.state.height} ref={this.canvasRef}>
                     Sorry, your browser does not support the canvas element.
                 </canvas>
             </React.Fragment>)
