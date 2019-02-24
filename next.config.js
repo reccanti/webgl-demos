@@ -1,4 +1,6 @@
-module.exports = {
+const withTypescript = require("@zeit/next-typescript");
+
+module.exports = withTypescript({
   target: "serverless",
   exportPathMap() {
     return {
@@ -14,4 +16,4 @@ module.exports = {
 
     return config;
   }
-}
+});
