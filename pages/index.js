@@ -11,6 +11,9 @@ const Home = () => (
       <li>
         <Link href="/demos/01-basic-triangle">Basic Triangle</Link>
       </li>
+      <li>
+        <Link href="/demos/02-2D-transform">2D Matrix Transform</Link>
+      </li>
     </ul>
   </div>
 )
