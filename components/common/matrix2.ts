@@ -1,5 +1,5 @@
 // prettier-ignore
-type TMatrix2 = [
+export type TMatrix2 = [
     number, number, number,
     number, number, number,
     number, number, number
