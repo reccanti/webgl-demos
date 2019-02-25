@@ -16,6 +16,10 @@
     margin-top: 1rem;
 }
 
+.margin-half-between-horizontal > * + * {
+    margin-left: 0.5rem;
+}
+
 .padding-1 {
     padding: 1rem;
 }
@@ -87,6 +91,14 @@
         ". . controls"
         ". . ."
         "title . .";
+}
+
+.grid-background {
+    z-index: 1;
+}
+
+.grid-foreground {
+    z-index: 2;
 }
 
 .grid-area-demo {

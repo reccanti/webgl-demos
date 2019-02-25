@@ -2,7 +2,7 @@
  * This creates a Grid used to display the responsive canvas and
  * related components. 
  */
-import React, { ReactNode } from "react"
+import React, { ReactNode } from 'react'
 
 type Props = {
     children?: ReactNode
@@ -15,19 +15,19 @@ export const DemoGrid = (props: Props) => (
 )
 
 export const DemoArea = (props: Props) => (
-    <div className="grid-area-demo">
+    <div className="grid-area-demo grid-background">
         {props.children}
     </div>
 )
 
 export const ControlsArea = (props: Props) => (
-    <div className="grid-area-controls">
+    <div className="grid-area-controls grid-foreground">
         {props.children}
     </div>
 )
 
 export const TitleArea = (props: Props) => (
-    <div className="grid-area-title">
+    <div className="grid-area-title grid-foreground">
         {props.children}
     </div>
 )

@@ -1,12 +1,13 @@
 import React from 'react';
 import Title from "../common/title";
 import { DemoGrid, DemoArea, ControlsArea, TitleArea } from "../common/demo-grid";
+import { Controls, Slider } from '../common/demo-controls';
 import ResponsiveCanvas from '../common/responsive-canvas';
-// import makeDemo from './makeDemo';
+import { init, drawScene } from './makeDemo';
 
 type Props = {}
 
-class BasicTriangle extends React.Component<Props> {
+class MatrixTransform extends React.Component<Props> {
     canvas: HTMLCanvasElement | null
 
     constructor(props: Props) {
@@ -19,19 +20,27 @@ class BasicTriangle extends React.Component<Props> {
             return;
         }
         const context = this.canvas.getContext("webgl");
-        // makeDemo(this.canvas, context);
+        if (!context) {
+            return;
+        }
+        init(this.canvas, context);
     }
 
     render() {
         return (
             <DemoGrid>
+                <ControlsArea>
+                    <Controls>
+                        <Slider name="translateX" min={0} max={100} onChange={() => { }}>Translate X</Slider>
+                    </Controls>
+                </ControlsArea>
+                <TitleArea><Title>Matrix Transforms</Title></TitleArea>
                 <DemoArea>
                     <ResponsiveCanvas getCanvas={(canvas: HTMLCanvasElement) => this.canvas = canvas} />
                 </DemoArea>
-                <TitleArea><Title>Matrix Transforms</Title></TitleArea>
             </DemoGrid>
         )
     }
 }
 
-export default BasicTriangle;
+export default MatrixTransform;
