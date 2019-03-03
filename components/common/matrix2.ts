@@ -17,9 +17,9 @@ const Matrix2 = {
     translate(x: number, y: number): TMatrix2 {
         // prettier-ignore
         return [
-            1, 0, x,
-            0, 1, y,
-            0, 0, 1
+            1, 0, 0,
+            0, 1, 0,
+            x, y, 1
         ]
     },
     scale(x: number, y: number): TMatrix2 {

@@ -4,9 +4,9 @@ describe("Matrix2", () => {
     test("Constructs a translation matrix", () => {
         expect(Matrix2.translate(8, 8)).toEqual([
             // prettier-ignore
-            1, 0, 8,
-            0, 1, 8,
-            0, 0, 1
+            1, 0, 0,
+            0, 1, 0,
+            8, 8, 1
         ])
     })
     test("Constructs a scaling matrix", () => {
@@ -28,11 +28,11 @@ describe("Matrix2", () => {
     test("Can compose matrices", () => {
         const scale = Matrix2.scale(8, 8);
         const translate = Matrix2.translate(8, 8);
-        expect(Matrix2.compose([translate, scale])).toEqual([
+        expect(Matrix2.compose([scale, translate])).toEqual([
             // prettier-ignore
-            8, 0, 8,
-            0, 8, 8,
-            0, 0, 1
+            8, 0, 0,
+            0, 8, 0,
+            8, 8, 1
         ])
     })
 })
