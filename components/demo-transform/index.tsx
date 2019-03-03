@@ -59,7 +59,9 @@ type State = {
     scaleY: number,
     translateX: number,
     translateY: number,
-    rotate: number
+    rotate: number,
+    screenWidth: number,
+    screenHeight: number
 }
 class MatrixTransform extends React.PureComponent<Props, State> {
     canvas: HTMLCanvasElement | null
@@ -69,7 +71,9 @@ class MatrixTransform extends React.PureComponent<Props, State> {
         scaleY: 1,
         translateX: 0,
         translateY: 0,
-        rotate: 0
+        rotate: 0,
+        screenWidth: 500,
+        screenHeight: 500
     }
 
     constructor(props: Props) {
@@ -78,14 +82,15 @@ class MatrixTransform extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        this.setupWebGL()
+        this.setupWebGL();
+        this.updateScreenDimensions();
     }
 
     componentDidUpdate() {
         const scaleMatrix = Matrix2.scale(this.state.scaleX, this.state.scaleY);
         const translateMatrix = Matrix2.translate(this.state.translateX, this.state.translateY);
         const rotateMatrix = Matrix2.rotate(this.state.rotate);
-        this.props.drawScene(Matrix2.compose([rotateMatrix, scaleMatrix, translateMatrix]))
+        this.props.drawScene(Matrix2.compose([scaleMatrix, rotateMatrix, translateMatrix]))
     }
 
     /**
@@ -100,6 +105,16 @@ class MatrixTransform extends React.PureComponent<Props, State> {
             return;
         }
         this.props.onWebGLMount(this.canvas, context);
+    }
+
+    updateScreenDimensions = () => {
+        if (!this.canvas) {
+            return;
+        }
+        this.setState({
+            screenWidth: this.canvas.clientWidth,
+            screenHeight: this.canvas.clientHeight
+        })
     }
 
     /**
@@ -143,8 +158,8 @@ class MatrixTransform extends React.PureComponent<Props, State> {
                     <Controls>
                         <Slider name="scaleX" min={-10} max={10} step={0.1} onChange={this.handleScaleX}>Scale X</Slider>
                         <Slider name="scaleY" min={-10} max={10} step={0.1} onChange={this.handleScaleY}>Scale Y</Slider>
-                        <Slider name="translateX" min={0} max={500} step={1} onChange={this.handleTranslateX}>Translate X</Slider>
-                        <Slider name="translateY" min={0} max={500} step={1} onChange={this.handleTranslateY}>Translate Y</Slider>
+                        <Slider name="translateX" min={0} max={this.state.screenWidth} step={1} onChange={this.handleTranslateX}>Translate X</Slider>
+                        <Slider name="translateY" min={0} max={this.state.screenHeight} step={1} onChange={this.handleTranslateY}>Translate Y</Slider>
                         <Slider name="translateY" min={-2 * Math.PI} max={2 * Math.PI} step={0.01} onChange={this.handleRotate}>Rotate</Slider>
                     </Controls>
                 </ControlsArea>
