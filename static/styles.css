@@ -28,6 +28,12 @@
     padding: 2rem;
 }
 
+/* ALIGNMENT */
+
+.text-align-right {
+    text-align: right;
+}
+
 /* GRIDS */
 
 .grid {

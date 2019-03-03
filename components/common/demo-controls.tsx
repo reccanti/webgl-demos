@@ -4,7 +4,7 @@ type ControlsProps = {
     children?: ReactNode
 }
 export const Controls = (props: ControlsProps) => (
-    <div className="margin-1 padding-1">
+    <div className="margin-1 padding-1 text-align-right">
         {props.children}
     </div>
 )

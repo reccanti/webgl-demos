@@ -86,8 +86,94 @@ function setLetterGeometry(gl: WebGLRenderingContext) {
     )
 }
 
-export default function makeDemo(_canvas: HTMLCanvasElement, _gl: WebGLRenderingContext) {
+interface DemoAPI {
+    drawScene: ((transformMatrix: TMatrix2) => void) | (() => void)
+}
+
+const defaultReturn: DemoAPI = {
+    drawScene() { }
+}
+
+export default function makeDemo(canvas: HTMLCanvasElement, gl: WebGLRenderingContext): DemoAPI {
+
+    // create the program
+    const vertShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+    const fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+    if (!(vertShader && fragShader)) {
+        return defaultReturn;
+    }
+    const program = createProgram(gl, vertShader, fragShader);
+    if (!program) {
+        return defaultReturn;
+    }
+
+    // get pointers to the attributes and uniforms
+    const positionLocation = gl.getAttribLocation(program, "a_position");
+    const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+    const colorLocation = gl.getUniformLocation(program, "u_color");
+    const matrixLocation = gl.getUniformLocation(program, "u_matrix");
+
+    // create a position buffer and bind it to WebGL's ARRAY_BUFFER
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+    // set the canvas size and viewport
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+    // use the program
+    gl.useProgram(program);
+
+    // set the geometry and draw the scene with its initial state
+    setLetterGeometry(gl);
+    drawScene(Matrix2.identity());
+
+    /**
+     * A function which draws the scene based on 
+     * a provided transformation matrix
+     */
+    function drawScene(transformMatrix: TMatrix2) {
+
+        // clear the screen
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        // turn on attributes
+        gl.enableVertexAttribArray(positionLocation);
+
+        // tell the attribute how to get data from the position buffer
+        (() => {
+            const size = 2;
+            const type = gl.FLOAT;
+            const normalize = false;
+            const stride = 0;
+            const offset = 0;
+            gl.vertexAttribPointer(
+                positionLocation,
+                size,
+                type,
+                normalize,
+                stride,
+                offset
+            )
+        })();
+
+        // set uniforms
+        gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height)
+        gl.uniform4fv(colorLocation, new Float32Array([1, 0, 0.5, 1]));
+        gl.uniformMatrix3fv(matrixLocation, false, new Float32Array(transformMatrix));
+
+        // draw the geometry
+        (() => {
+            const primitiveType = gl.TRIANGLES;
+            const offset = 0;
+            const count = 18;
+            gl.drawArrays(primitiveType, offset, count);
+        })()
+    }
+
+    // Export the API to manipulate the demo
     return {
-        drawScene: () => { console.log("drawing") }
+        drawScene
     }
 }
