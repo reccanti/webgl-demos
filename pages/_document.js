@@ -9,6 +9,7 @@ export default class MyDocument extends Document {
                     <link href="/static/styles.css" rel="stylesheet" type="text/css" />
                     <link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/a11y-dark.css" />
                     <link href="https://fonts.googleapis.com/css?family=Inconsolata|Lato|Open+Sans:400,800" rel="stylesheet"></link>
+                    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
                     <style>
                         {`
 
