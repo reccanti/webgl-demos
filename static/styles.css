@@ -99,6 +99,15 @@
         "title";
 }
 
+@media(orientation: portrait) {
+    .grid-demo-areas-portrait {
+        grid-template-areas:
+            "title"
+            "."
+            "controls"
+    }
+}
+
 .grid-background {
     z-index: 1;
 }

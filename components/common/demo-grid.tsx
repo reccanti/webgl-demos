@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const DemoGrid = (props: Props) => (
-    <div className="grid grid-demo-areas height-100 width-100">
+    <div className="grid grid-demo-areas grid-demo-areas-portrait height-100 width-100">
         {props.children}
     </div>
 )
