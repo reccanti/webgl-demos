@@ -94,9 +94,9 @@
 
 .grid-demo-areas {
     grid-template-areas:
-        ". . controls"
-        ". . ."
-        "title . .";
+        "controls"
+        "."
+        "title";
 }
 
 .grid-background {
@@ -109,7 +109,7 @@
 
 .grid-area-demo {
     grid-row: 1 / 4;
-    grid-column: 1 / 4;
+    grid-column: 1 / 2;
 }
 
 .grid-area-controls {
@@ -128,6 +128,10 @@
 
 .display-block {
     display: block;
+}
+
+.display-inline-block {
+    display: inline-block;
 }
 
 /* OVERFLOW */

@@ -1,4 +1,4 @@
-import React, { ReactNode, SyntheticEvent, ChangeEvent } from "react";
+import React, { ReactNode, ChangeEvent } from "react";
 
 type ControlsProps = {
     children?: ReactNode
@@ -43,7 +43,15 @@ export class Slider extends React.Component<SliderProps, SliderState> {
         return (
             <div className="font-openSans margin-half-between-horizontal" >
                 <span>{this.state.currentValue}</span>
-                <input name={this.props.name} value={this.state.currentValue} type="range" onChange={this.handleChange} min={this.props.min} max={this.props.max} step={this.props.step} />
+                <input
+                    name={this.props.name}
+                    value={this.state.currentValue}
+                    type="range"
+                    onChange={this.handleChange}
+                    min={this.props.min}
+                    max={this.props.max}
+                    step={this.props.step}
+                />
                 <label htmlFor={this.props.name}>{this.props.children}</label>
             </div>
         )
