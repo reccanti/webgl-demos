@@ -5,7 +5,7 @@
     "build": "next build",
     "start": "next start",
     "export": "npm run build && next export -o docs",
-    "test": "jest"
+    "test": "jest --env=jsdom"
   },
   "dependencies": {
     "@zeit/next-typescript": "^1.1.1",
