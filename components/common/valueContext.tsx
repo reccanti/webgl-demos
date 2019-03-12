@@ -2,8 +2,14 @@ import * as React from 'react';
 
 const noop = () => { }
 
-export default function makeValueContext<Config, Value>(_initializer: (config: Config) => Value, initialValue: Value) {
-    const { Provider, Consumer } = React.createContext(initialValue);
+export default function makeValueContext<Config, Value>(initializer: (config: Config) => Value, initialValue: Value) {
+
+    type InitializeFunction = (config: Config) => Value;
+    type ContextValue = Value & {
+        initialize?: InitializeFunction
+    }
+
+    const { Provider, Consumer } = React.createContext<ContextValue>({ ...initialValue });
 
     // a Component which sets initial values and updates itself when
     // the initializer is called
@@ -13,9 +19,15 @@ export default function makeValueContext<Config, Value>(_initializer: (config: C
             ...initialValue
         }
 
+        intialize = (config: Config) => {
+            this.setState({
+                ...initializer(config)
+            })
+        }
+
         render() {
             return (
-                <Provider value={this.state}>
+                <Provider value={{ ...this.state, initialize: this.intialize }}>
                     {this.props.children}
                 </Provider>
             );
@@ -35,16 +47,30 @@ export default function makeValueContext<Config, Value>(_initializer: (config: C
     function withValueContextContainer<Props>(MyComponent: React.ComponentType<Props>): React.ComponentType<Props> {
         return ((props: Props) => (
             <Consumer>
-                {value => (
+                {({ initialize, ...value }) => (
                     <MyComponent {...props} {...value} />
                 )}
             </Consumer>
         ));
     }
 
+    interface InitializerProp {
+        initialize?: (config: Config) => void
+    }
+
+    function withValueContextInitializer<Props>(MyComponent: React.ComponentType<Props & InitializerProp>): React.ComponentType<Props> {
+        return (props: Props) => (
+            <Consumer>
+                {({ initialize }) => (
+                    <MyComponent {...props} initialize={initialize} />
+                )}
+            </Consumer>
+        )
+    }
+
     return {
         withValueContextProvider,
         withValueContextContainer,
-        withValueContextInitializer: noop
+        withValueContextInitializer
     }
 }

@@ -13,7 +13,8 @@ describe("ValueContext", () => {
         expect(typeof withValueContextProvider).toBe("function");
         expect(typeof withValueContextContainer).toBe("function");
         expect(typeof withValueContextInitializer).toBe("function");
-    })
+    });
+
     test("The ValueContext created can be used to make Components with the default values mapped to props", () => {
         const {
             withValueContextProvider,
@@ -27,20 +28,41 @@ describe("ValueContext", () => {
             <Container />
         );
         expect(wrapper.find(MyComponent).props()).toEqual({ foo: "baz" })
+    });
+
+    test("The ValueContext created can be updated by an 'initializer' function", () => {
+        const {
+            withValueContextProvider,
+            withValueContextContainer,
+            withValueContextInitializer
+        } = makeValueContext<void, { foo: string }>(() => ({ foo: "bar" }), { foo: "baz" })
+
+        // initialize all components
+        class Initializer extends React.Component<{ initialize?: () => void }> {
+            handleInitialize = () => {
+                if (this.props.initialize) {
+                    this.props.initialize();
+                }
+            }
+            render() {
+                return <React.Fragment />
+            }
+        }
+        const WrappedInitializer = withValueContextInitializer(Initializer);
+        const MyComponent = () => (
+            <React.Fragment>
+                <WrappedInitializer />
+            </React.Fragment>
+        )
+        const WrappedComponent = withValueContextProvider(withValueContextContainer(MyComponent));
+
+        const wrapper = mount(<WrappedComponent />)
+
+        // simulate the Initializer's handleInitialize() function being called
+        const InitializerInstance = wrapper.find(Initializer).instance() as Initializer;
+        InitializerInstance.handleInitialize();
+        wrapper.update();
+
+        expect(wrapper.find(MyComponent).props()).toEqual({ foo: "bar" })
     })
-    // test("Creates a value context with a default state", () => {
-    //     type Props = {
-    //         foo: string,
-    //     };
-    //     const MockComponent = jest.fn();
-    //     const ConnectedComponent =
-    //         withValueContextProvider(
-    //             withValueContextContainer<void, Props>(
-    //                 noop, {
-    //                     foo: "bar"
-    //                 })(MockComponent)
-    //         );
-    //     const wrapper = shallow(<ConnectedComponent />)
-    //     console.log(MockComponent)
-    // })
 })
