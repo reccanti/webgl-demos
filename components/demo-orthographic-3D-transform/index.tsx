@@ -48,7 +48,7 @@ class Orthograpic3DTransformDemo extends React.Component<DemoUpdateProps> {
     }
 
     componentDidUpdate() {
-        const scaleMatrix = Matrix4.scale(this.state.scaleX, this.state.scaleY, 1);
+        const scaleMatrix = Matrix4.scale(this.state.scaleX, this.state.scaleY, this.state.scaleZ);
         const rotateMatrix = Matrix4.compose([
             Matrix4.identity(),
             Matrix4.rotateX(this.state.rotateX),
