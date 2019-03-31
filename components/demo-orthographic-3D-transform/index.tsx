@@ -36,15 +36,15 @@ const Canvas = withValueContextInitializer(ResponsiveCanvasInitializer);
 class Orthograpic3DTransformDemo extends React.Component<DemoUpdateProps> {
 
     state = {
-        scaleX: 1,
-        scaleY: 1,
-        scaleZ: 1,
-        rotateX: 0,
-        rotateY: 0,
-        rotateZ: 0,
-        translateX: 0,
-        translateY: 0,
-        translateZ: 0
+        scaleX: 1.5,
+        scaleY: 1.5,
+        scaleZ: 1.5,
+        rotateX: Math.PI / 4,
+        rotateY: Math.PI / 4,
+        rotateZ: Math.PI / 4,
+        translateX: 100,
+        translateY: 100,
+        translateZ: 100
     }
 
     componentDidUpdate() {
