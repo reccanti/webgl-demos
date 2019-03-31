@@ -2,24 +2,24 @@
  * Demo for Orthographic 3D in WebGL built using
  * the ValueContext component
  */
-import React, { ChangeEvent } from "react";
+import React from "react";
 import ResponsiveCanvasInitializer from "../common/responsiveCanvasInitializer";
 import makeValueContext from "../common/valueContext";
+import { DemoGrid, DemoArea, ControlsArea, TitleArea } from "../common/demo-grid";
+import { Controls, Slider } from '../common/demo-controls';
+import Matrix4, { TMatrix4 } from '../common/matrix4';
+import makeDemo from "./makeDemo";
 
-type ColorSetterAPI = {
-    setColor: (color: string) => void,
-    drawRectangle: () => void
+type DemoAPI = {
+    drawScene: (matrix: TMatrix4) => void
 }
-type ColorUpdateProps = {
-    updateColor: (color: string) => void
+type DemoUpdateProps = {
+    drawScene: (matrix4: TMatrix4) => void
 }
 
-function initializer(api: ColorSetterAPI) {
+function initializer({ drawScene }: DemoAPI) {
     return {
-        updateColor: function updateColor(color: string) {
-            api.setColor(color);
-            api.drawRectangle();
-        }
+        drawScene
     }
 }
 
@@ -27,56 +27,115 @@ const {
     withValueContextProvider,
     withValueContextContainer,
     withValueContextInitializer
-} = makeValueContext<ColorSetterAPI, ColorUpdateProps>(initializer, {
-    updateColor() { }
+} = makeValueContext(initializer, {
+    drawScene() { }
 })
-
-function makeDemo(canvas: HTMLCanvasElement) {
-    const context = canvas.getContext("2d");
-    if (context) {
-        context.canvas.width = canvas.clientWidth;
-        context.canvas.height = canvas.clientHeight;
-
-        // default color. This can be set
-        let color = 'black';
-
-        // our API for setting and updating the canvas
-        const setColor = (newColor: string) => {
-            color = newColor;
-        }
-        const drawRectangle = () => {
-            context.fillStyle = color;
-            context.fillRect(20, 10, 150, 100);
-        }
-
-        drawRectangle();
-
-        return {
-            setColor,
-            drawRectangle
-        }
-
-    }
-    return {
-        setColor() { },
-        drawRectangle() { }
-    }
-}
 
 const Canvas = withValueContextInitializer(ResponsiveCanvasInitializer);
 
-const Orthograpic3DTransformDemo = React.memo((props: ColorUpdateProps) => {
+class Orthograpic3DTransformDemo extends React.Component<DemoUpdateProps> {
 
-    function handleUpdate(event: ChangeEvent<HTMLInputElement>) {
-        props.updateColor(String(event.target.value));
+    state = {
+        scaleX: 1,
+        scaleY: 1,
+        scaleZ: 1,
+        rotateX: 0,
+        rotateY: 0,
+        rotateZ: 0,
+        translateX: 0,
+        translateY: 0,
+        translateZ: 0
     }
 
-    return (
-        <React.Fragment>
-            <input type="text" name="testing" onChange={handleUpdate} />
-            <Canvas makeCanvasAPI={makeDemo} />
-        </React.Fragment>
-    )
-})
+    componentDidUpdate() {
+        const scaleMatrix = Matrix4.scale(this.state.scaleX, this.state.scaleY, 1);
+        const rotateMatrix = Matrix4.compose([
+            Matrix4.identity(),
+            Matrix4.rotateX(this.state.rotateX),
+            Matrix4.rotateY(this.state.rotateY),
+            Matrix4.rotateZ(this.state.rotateZ)
+        ]);
+        const translateMatrix = Matrix4.translate(this.state.translateX, this.state.translateY, this.state.translateZ)
+        const matrix = Matrix4.compose([scaleMatrix, rotateMatrix, translateMatrix])
+        this.props.drawScene(matrix);
+    }
+
+    handleScaleX = (value: number) => {
+        this.setState({
+            scaleX: value
+        })
+    }
+
+    handleScaleY = (value: number) => {
+        this.setState({
+            scaleY: value
+        })
+    }
+
+    handleScaleZ = (value: number) => {
+        this.setState({
+            scaleZ: value
+        })
+    }
+    handleTranslateX = (value: number) => {
+        this.setState({
+            translateX: value
+        })
+    }
+
+    handleTranslateY = (value: number) => {
+        this.setState({
+            translateY: value
+        })
+    }
+
+    handleTranslateZ = (value: number) => {
+        this.setState({
+            translateZ: value
+        })
+    }
+
+    handleRotateX = (value: number) => {
+        this.setState({
+            rotateX: value
+        })
+    }
+
+
+    handleRotateY = (value: number) => {
+        this.setState({
+            rotateY: value
+        })
+    }
+
+    handleRotateZ = (value: number) => {
+        this.setState({
+            rotateZ: value
+        })
+    }
+
+    render() {
+        return (
+            <DemoGrid>
+                <ControlsArea>
+                    <Controls>
+                        <Slider name="scaleX" min={-10} max={10} step={0.1} onChange={this.handleScaleX}>Scale X</Slider>
+                        <Slider name="scaleY" min={-10} max={10} step={0.1} onChange={this.handleScaleY}>Scale Y</Slider>
+                        <Slider name="scaleZ" min={-10} max={10} step={0.1} onChange={this.handleScaleZ}>Scale Z</Slider>
+                        <Slider name="rotateX" min={-2 * Math.PI} max={2 * Math.PI} step={0.01} onChange={this.handleRotateX}>Rotate X</Slider>
+                        <Slider name="rotateY" min={-2 * Math.PI} max={2 * Math.PI} step={0.01} onChange={this.handleRotateY}>Rotate Y</Slider>
+                        <Slider name="rotateZ" min={-2 * Math.PI} max={2 * Math.PI} step={0.01} onChange={this.handleRotateZ}>Rotate Z</Slider>
+                        <Slider name="translateX" min={0} max={500} step={1} onChange={this.handleTranslateX}>Translate X</Slider>
+                        <Slider name="translateY" min={0} max={500} step={1} onChange={this.handleTranslateY}>Translate Y</Slider>
+                        <Slider name="translateZ" min={0} max={500} step={1} onChange={this.handleTranslateZ}>Translate Z</Slider>
+                    </Controls>
+                </ControlsArea>
+                <DemoArea>
+                    <Canvas makeCanvasAPI={makeDemo} />
+                </DemoArea>
+            </DemoGrid>
+        )
+    }
+}
 
 export default withValueContextProvider(withValueContextContainer(Orthograpic3DTransformDemo));

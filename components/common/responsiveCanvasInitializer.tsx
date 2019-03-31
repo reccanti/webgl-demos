@@ -25,7 +25,7 @@ class ResponsiveCanvasInitializer<Config> extends React.PureComponent<Props<Conf
             return;
         }
         const api = this.props.makeCanvasAPI(this.canvas);
-        if (!this.props.initialize) {
+        if (!this.props.initialize || !api) {
             return
         }
         this.props.initialize(api);

@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-const noop = () => { }
-
 export default function makeValueContext<Config, Value>(initializer: (config: Config) => Value, initialValue: Value) {
 
     type InitializeFunction = (config: Config) => Value;
