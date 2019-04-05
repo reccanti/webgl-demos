@@ -1,24 +1,29 @@
 import React from "react";
 
-export default class ResponsiveCanvas extends React.Component {
-    canvasRef
+type Props = {
+    getCanvas: (canvas: HTMLCanvasElement) => void
+}
+export default class ResponsiveCanvas extends React.Component<Props> {
+    canvasRef: React.RefObject<HTMLCanvasElement> | null = null
 
     state = {
         width: 300,
         height: 240
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.canvasRef = React.createRef();
     }
 
     componentDidMount() {
         this.updateCanvasDimensions();
-        this.props.getCanvas(this.canvasRef.current);
+        if (this.canvasRef && this.canvasRef.current) {
+            this.props.getCanvas(this.canvasRef.current);
+        }
     }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: Props) {
         if (this.props.getCanvas !== nextProps.getCanvas) {
             return true;
         } else {
@@ -35,10 +40,12 @@ export default class ResponsiveCanvas extends React.Component {
      * so that they can be applied to the canvas element
      */
     updateCanvasDimensions = () => {
-        this.setState({
-            width: this.canvasRef.current.clientWidth,
-            height: this.canvasRef.current.clientHeight
-        });
+        if (this.canvasRef && this.canvasRef.current) {
+            this.setState({
+                width: this.canvasRef.current.clientWidth,
+                height: this.canvasRef.current.clientHeight
+            });
+        }
     }
 
     render() {
