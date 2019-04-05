@@ -7,6 +7,7 @@ import ResponsiveCanvasInitializer from "../common/responsiveCanvasInitializer";
 import makeValueContext from "../common/valueContext";
 import { DemoGrid, DemoArea, ControlsArea, TitleArea } from "../common/demo-grid";
 import { Controls, Slider } from '../common/demo-controls';
+import Title from '../common/title';
 import Matrix4, { TMatrix4 } from '../common/matrix4';
 import makeDemo from "./makeDemo";
 
@@ -130,6 +131,7 @@ class Orthograpic3DTransformDemo extends React.Component<DemoUpdateProps> {
                         <Slider name="translateZ" min={0} max={500} step={1} onChange={this.handleTranslateZ}>Translate Z</Slider>
                     </Controls>
                 </ControlsArea>
+                <TitleArea><Title>Orthographic 3D Transforms</Title></TitleArea>
                 <DemoArea>
                     <Canvas makeCanvasAPI={makeDemo} />
                 </DemoArea>
