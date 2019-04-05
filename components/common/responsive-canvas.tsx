@@ -1,8 +1,9 @@
 import React from "react";
 
-type Props = {
+export type Props = {
     getCanvas: (canvas: HTMLCanvasElement) => void
 }
+
 export default class ResponsiveCanvas extends React.Component<Props> {
     canvasRef: React.RefObject<HTMLCanvasElement> | null = null
 
